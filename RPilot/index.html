@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ru" data-theme="dark" data-accent="green">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0d09">
+  <title>Постовой | Помощник армии RMRP</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#shift" aria-label="RPilot">
+        <span class="brand-mark rpilot-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <path d="M10 37V11h15c8 0 13 4 13 11 0 5-3 9-8 10l8 5H27l-7-5v5H10Zm10-16h6c2 0 3-1 3-3s-1-3-3-3h-6v6Z"/>
+            <path class="pilot-wing" d="M5 26h15v5H9l-4-5Zm38 0H28v5h11l4-5Z"/>
+          </svg>
+        </span>
+        <span><b>RPilot</b><small data-i18n="brandSubtitle">помощник армии RMRP</small></span>
+      </a>
+
+      <nav class="main-nav" aria-label="Разделы">
+        <button class="nav-button active" data-tab="shift" type="button">Смена</button>
+        <button class="nav-button" data-tab="codes" type="button">Коды</button>
+        <button class="nav-button" data-tab="optimization" type="button">Оптимизация ПК</button>
+        <button class="nav-button gated-tab" id="earnings-tab-button" data-tab="earnings" type="button" hidden>Способы заработка</button>
+        <button class="nav-button" data-tab="settings" type="button">Настройки</button>
+      </nav>
+
+      <div class="top-status">
+        <label class="language-picker" aria-label="Язык интерфейса">
+          <span>🌐</span>
+          <select id="language-select">
+            <option value="ru">RU · Русский</option>
+            <option value="en">EN · English</option>
+            <option value="de">DE · Deutsch</option>
+            <option value="uk">UA · Українська</option>
+            <option value="be">BY · Беларуская</option>
+            <option value="pl">PL · Polski</option>
+          </select>
+        </label>
+        <div class="moscow-time">
+          <small>Москва</small>
+          <strong id="clock">00:00:00</strong>
+        </div>
+        <div class="header-countdown">
+          <small>До доклада</small>
+          <strong id="header-countdown">20:00</strong>
+        </div>
+        <button class="profile-chip" id="profile-button" type="button">
+          <span id="profile-initials">?</span>
+          <div><strong id="profile-short-name">Профиль</strong><small id="profile-static">не настроен</small></div>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="tab-page active" id="shift" data-page="shift">
+        <section class="command-strip">
+          <div>
+            <p class="eyebrow">Сервер</p>
+            <strong>Арбат</strong>
+            <span class="online-badge"><i></i> Основной регламент</span>
+          </div>
+          <div class="command-time">
+            <span id="date">00.00.0000</span>
+            <b>МСК</b>
+          </div>
+        </section>
+
+        <section class="shift-hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Панель военнослужащего</p>
+            <h1>Пост под контролем.<br><span>Доклад вовремя.</span></h1>
+            <p>Выберите пост и заступите на смену. Помощник подготовит сообщения для рации, покажет порядок действий и напомнит о следующем докладе.</p>
+          </div>
+          <div class="hero-timer" id="hero-timer">
+            <small>До следующего доклада осталось</small>
+            <strong id="countdown">20:00</strong>
+            <span id="timer-caption">Таймер запустится после начала поста</span>
+          </div>
+        </section>
+
+        <section class="server-section">
+          <div class="section-intro">
+            <div><p class="eyebrow">Выберите город</p><h2>Сервер проекта</h2></div>
+            <p>Правила, посты и доклады зависят от выбранного сервера. Сейчас полностью доступен Арбат.</p>
+          </div>
+          <div class="server-carousel">
+            <button class="server-card" data-server-card="tverskoy" type="button">
+              <span class="server-art tverskoy-art">Т</span>
+              <small>В разработке</small><strong>Тверской</strong>
+            </button>
+            <button class="server-card" data-server-card="rublevka" type="button">
+              <span class="server-art rublevka-art">Р</span>
+              <small>В разработке</small><strong>Рублёвка</strong>
+            </button>
+            <button class="server-card active" data-server-card="arbat" type="button">
+              <span class="server-art arbat-art">А</span>
+              <i>▶</i><small>Доступен</small><strong>Арбат</strong>
+            </button>
+            <button class="server-card" data-server-card="patriki" type="button">
+              <span class="server-art patriki-art">П</span>
+              <small>В разработке</small><strong>Патрики</strong>
+            </button>
+            <button class="server-card" data-server-card="kutuzovsky" type="button">
+              <span class="server-art kutuzovsky-art">К</span>
+              <small>В разработке</small><strong>Кутузовский</strong>
+            </button>
+          </div>
+        </section>
+
+        <section class="dashboard-grid">
+          <aside class="panel setup-card">
+            <div class="panel-title">
+              <span>01</span>
+              <div><p>Подготовка</p><h2>Выбор поста</h2></div>
+            </div>
+
+            <label class="field">
+              <span>Пост</span>
+              <select id="post-select"></select>
+            </label>
+
+            <label class="field">
+              <span>Количество военнослужащих на посту</span>
+              <input id="squad" type="number" value="1" min="1" max="99">
+            </label>
+
+            <button class="primary-button" id="start-post" type="button">Заступить на пост</button>
+            <button class="secondary-button" id="guide-button" type="button">Открыть инструкцию поста</button>
+          </aside>
+
+          <section class="main-column">
+            <article class="active-card" id="active-card">
+              <div class="post-progress" id="post-progress" style="--progress: 0">
+                <svg viewBox="0 0 52 52" aria-hidden="true">
+                  <circle class="progress-track" cx="26" cy="26" r="21"></circle>
+                  <circle class="progress-value" cx="26" cy="26" r="21"></circle>
+                </svg>
+                <span>⚡</span>
+              </div>
+              <div>
+                <small>Текущий статус</small>
+                <strong id="post-status">Смена не начата</strong>
+                <p id="post-substatus">Выберите пост и нажмите «Заступить»</p>
+              </div>
+              <button class="danger-button" id="finish-post" type="button" disabled>Завершить пост</button>
+            </article>
+
+            <div class="section-heading">
+              <div><p class="eyebrow">Эфирная дисциплина</p><h2>Доклады для рации</h2></div>
+              <span id="reports-progress">0 из 5 подано</span>
+            </div>
+            <div class="report-list" id="report-list"></div>
+          </section>
+        </section>
+      </section>
+
+      <section class="tab-page" id="codes" data-page="codes">
+        <div class="page-heading">
+          <div><p class="eyebrow">Быстрый эфир</p><h1>Коды поста</h1></div>
+          <p>Выберите ситуацию, проверьте готовую фразу и скопируйте её в рацию.</p>
+        </div>
+        <div class="codes-layout">
+          <section class="panel code-builder">
+            <div class="panel-title"><span>02</span><div><p>Конструктор</p><h2>Сообщение в рацию</h2></div></div>
+            <label class="field"><span>Пост</span><select id="code-post-select"></select></label>
+            <div class="code-preview">
+              <small>Готовое сообщение</small>
+              <strong id="code-preview">КПП-1 | Код - 1</strong>
+            </div>
+            <button class="primary-button" id="copy-code" type="button">Скопировать сообщение</button>
+          </section>
+          <section class="code-library">
+            <div class="library-heading">
+              <div><p class="eyebrow">Основные сигналы</p><h2>Коды</h2></div>
+              <span>Используются для быстрой передачи обстановки</span>
+            </div>
+            <div class="code-grid" id="code-grid"></div>
+            <div class="code-four-warning">
+              <strong>Важно про Код 4</strong>
+              <p>Код 4 вправе объявить Комбриг, Полковник или МО. После объявления все покидают посты, а время засчитывается полностью. Нужны скрин заступления и скрин объявления Кода 4.</p>
+            </div>
+            <div class="library-heading ten-heading">
+              <div><p class="eyebrow">Служебная связь</p><h2>Тен-коды</h2></div>
+              <span>Короткие ответы для переговоров по рации</span>
+            </div>
+            <div class="ten-code-grid" id="ten-code-grid"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="tab-page" id="optimization" data-page="optimization">
+        <div class="page-heading optimization-heading">
+          <div><p class="eyebrow">Больше FPS · меньше задержек</p><h1>Оптимизация ПК</h1></div>
+          <p>Пошаговая памятка по редуксу, `Settings.xml`, удобным биндам, анимациям и настройкам F10.</p>
+        </div>
+
+        <div class="optimization-overview">
+          <article class="optimization-stat"><span>01</span><div><strong>Редукс</strong><small>Меньше визуального шума</small></div></article>
+          <article class="optimization-stat"><span>02</span><div><strong>Settings.xml</strong><small>Правильная графика и FPS</small></div></article>
+          <article class="optimization-stat"><span>03</span><div><strong>Бинды</strong><small>Быстрее в критической ситуации</small></div></article>
+          <article class="optimization-stat"><span>04</span><div><strong>F10</strong><small>Удобный интерфейс игры</small></div></article>
+        </div>
+
+        <div class="optimization-list">
+          <article class="optimization-card">
+            <div class="optimization-copy">
+              <span class="step-number">01</span>
+              <p class="eyebrow">Производительность</p>
+              <h2>Установка редукса</h2>
+              <p>Редукс заменяет текстуры и помогает улучшить производительность или графику. Для оптимизации нужен пакет, который уменьшает визуальный шум и нагрузку на ПК.</p>
+              <ol>
+                <li>Если редукс уже установлен, проверьте файлы через лаунчер, чтобы удалить старую версию.</li>
+                <li>Скачайте архив с редуксом и откройте его через WinRAR.</li>
+                <li>Откройте корневую папку GTA V: `C:\Program Files\Epic Games\GTAV` или `C:\Program Files (x86)\Steam\steamapps\common\GTAV`.</li>
+                <li>Перенесите папки `update` и `x64` из архива в корень GTA V с заменой файлов.</li>
+                <li>Дождитесь окончания копирования и запускайте игру.</li>
+              </ol>
+            </div>
+            <img src="optimization-redux.png" alt="Папка GTA V и архив редукса">
+          </article>
+
+          <article class="optimization-card reverse">
+            <div class="optimization-copy">
+              <span class="step-number">02</span>
+              <p class="eyebrow">Графика</p>
+              <h2>Правильный Settings.xml</h2>
+              <p>В `Settings.xml` находятся дополнительные настройки игры. Правильные значения дают заметную оптимизацию.</p>
+              <ol>
+                <li>Откройте `Документы → Rockstar Games → GTA V → Settings.xml`.</li>
+                <li>Откройте файл через Блокнот.</li>
+                <li>В правильном файле настроек скопируйте блок от `&lt;graphics&gt;` до `&lt;/graphics&gt;`.</li>
+                <li>В своём файле выделите такой же блок и замените его скопированными параметрами.</li>
+                <li>Сохраните файл.</li>
+                <li>Для монитора 60 Гц установите `VSync value="0"`, а для параметра `Windowed` — значение `2`.</li>
+              </ol>
+            </div>
+            <img src="optimization-settings.png" alt="Расположение Settings.xml и блок graphics">
+          </article>
+
+          <article class="optimization-card">
+            <div class="optimization-copy">
+              <span class="step-number">03</span>
+              <p class="eyebrow">Управление</p>
+              <h2>Бинды, анимация и F10</h2>
+              <p>Чем быстрее нажимаются нужные кнопки, тем выше шанс правильно отреагировать во время игры.</p>
+              <ul>
+                <li>В быстрые слоты поставьте броню, аптечку, обезболивающее и остальное необходимое.</li>
+                <li>Назначьте свободные клавиши, до которых легко дотянуться одной рукой.</li>
+                <li>Для анимации используйте только «Спать» и включайте её не раньше чем через 5 секунд после выстрела.</li>
+                <li>В F10 отключите визуальные эффекты алкоголя, включите компас и удалите лишнюю кнопку телефона.</li>
+                <li>Настройте быстрые бинды на наушники, сопровождение, поднятие на руки и звук попаданий примерно 25%.</li>
+              </ul>
+            </div>
+            <img src="optimization-binds.png" alt="Быстрые слоты и рекомендуемые настройки F10">
+          </article>
+        </div>
+
+        <div class="optimization-note">
+          <strong>Важно</strong>
+          <p>Перед заменой файлов создайте резервную копию. Используйте только проверенные архивы и настройки, разрешённые правилами проекта.</p>
+        </div>
+      </section>
+
+      <section class="tab-page" id="settings" data-page="settings">
+        <div class="page-heading">
+          <div><p class="eyebrow">Персонализация</p><h1>Настройки</h1></div>
+          <p>Оформление и звук сохраняются только на этом устройстве.</p>
+        </div>
+        <div class="settings-grid">
+          <section class="panel settings-card">
+            <div class="panel-title"><span>03</span><div><p>Внешний вид</p><h2>Тема приложения</h2></div></div>
+            <div class="segmented">
+              <button data-theme-choice="dark" type="button">Чёрная</button>
+              <button data-theme-choice="light" type="button">Белая</button>
+            </div>
+            <span class="setting-label">Дополнительный цвет</span>
+            <div class="color-options">
+              <button class="color-dot green" data-accent-choice="green" aria-label="Зелёный" type="button"></button>
+              <button class="color-dot blue" data-accent-choice="blue" aria-label="Синий" type="button"></button>
+              <button class="color-dot red" data-accent-choice="red" aria-label="Красный" type="button"></button>
+              <button class="color-dot orange" data-accent-choice="orange" aria-label="Оранжевый" type="button"></button>
+              <button class="color-dot purple" data-accent-choice="purple" aria-label="Фиолетовый" type="button"></button>
+            </div>
+          </section>
+
+          <section class="panel settings-card">
+            <div class="panel-title"><span>04</span><div><p>Уведомления</p><h2>Рингтон доклада</h2></div></div>
+            <label class="field">
+              <span>Сигнал</span>
+              <select id="ringtone">
+                <option value="radio">Рация</option>
+                <option value="alarm">Тревожный</option>
+                <option value="soft">Спокойный</option>
+                <option value="none">Без звука</option>
+              </select>
+            </label>
+            <button class="secondary-button" id="preview-ringtone" type="button">Прослушать</button>
+            <label class="switch-row"><span><b>Повторять сигнал</b><small>Три коротких уведомления</small></span><input id="repeat-ring" type="checkbox"><i></i></label>
+          </section>
+
+          <section class="panel settings-card profile-settings">
+            <div class="panel-title"><span>05</span><div><p>Учётная карточка</p><h2>Профиль</h2></div></div>
+            <div id="profile-summary"></div>
+            <button class="secondary-button" id="edit-profile" type="button">Изменить профиль</button>
+          </section>
+        </div>
+      </section>
+
+      <section class="tab-page" id="earnings" data-page="earnings">
+        <div class="page-heading">
+          <div><p class="eyebrow">Закрытый раздел</p><h1>Способы заработка</h1></div>
+          <p>Доступ к разделу выдаёт создатель сайта. Материалы предназначены только для одобренных аккаунтов.</p>
+        </div>
+        <div class="earnings-grid">
+          <article class="panel earning-card">
+            <span>01</span><h2>Служба и премии</h2>
+            <p>Фиксируйте выполненные задачи, повышения и премии. Соблюдайте правила сервера и условия командования.</p>
+          </article>
+          <article class="panel earning-card">
+            <span>02</span><h2>Подработки</h2>
+            <p>Используйте разрешённые сервером работы в свободное от службы время. Проверяйте актуальные ограничения Арбата.</p>
+          </article>
+          <article class="panel earning-card">
+            <span>03</span><h2>Личный план</h2>
+            <p>Сравнивайте доход за час и выбирайте безопасные способы без нарушения правил проекта.</p>
+          </article>
+        </div>
+        <section class="panel access-manager" id="access-manager" hidden>
+          <div class="panel-title"><span>★</span><div><p>Только создатель</p><h2>Управление доступом</h2></div></div>
+          <form id="access-form">
+            <label class="field"><span>Static ID пользователя</span><input id="access-static" inputmode="numeric" maxlength="7" placeholder="123-456" required></label>
+            <button class="primary-button" type="submit">Выдать или отозвать доступ</button>
+          </form>
+          <div class="account-list" id="account-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <span>ПОСТОВОЙ · неофициальный помощник игрока</span>
+      <span>Арбат · локальная версия</span>
+    </footer>
+  </div>
+
+  <button class="floating-codes" id="floating-codes" type="button" aria-label="Открыть быстрые коды"><span>!</span><b>Коды</b></button>
+  <button class="floating-feedback" id="floating-feedback" type="button" aria-label="Сообщить об ошибке">?</button>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Сменить цветовую тему"><span id="theme-icon">☀</span></button>
+
+  <div class="modal-backdrop" id="profile-modal" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+      <button class="modal-close" id="profile-close" type="button" aria-label="Закрыть">×</button>
+      <p class="eyebrow">Учётная запись</p>
+      <h2 id="profile-title">Аккаунт военнослужащего</h2>
+      <p class="modal-description">Аккаунты хранятся локально в этом браузере. Войдите по Static ID и паролю или зарегистрируйтесь.</p>
+      <div class="auth-tabs">
+        <button class="active" id="show-login" type="button">Вход</button>
+        <button id="show-register" type="button">Регистрация</button>
+      </div>
+      <form id="login-form">
+        <label class="field"><span>Статик ID</span><input id="login-static" required inputmode="numeric" maxlength="7" placeholder="946-447"></label>
+        <label class="field"><span>Пароль</span><input id="login-password" type="password" required minlength="6" placeholder="Ваш пароль"></label>
+        <button class="primary-button" type="submit">Войти в аккаунт</button>
+      </form>
+      <form id="profile-form">
+        <div class="field-row">
+          <label class="field"><span>Имя</span><input id="first-name" required maxlength="24" placeholder="Иван"></label>
+          <label class="field"><span>Фамилия</span><input id="last-name" required maxlength="24" placeholder="Смирнов"></label>
+        </div>
+        <label class="field"><span>Звание</span><select id="rank"></select></label>
+        <div class="field-row">
+          <label class="field"><span>Статик ID</span><input id="static-id" required inputmode="numeric" maxlength="7" placeholder="946-447"></label>
+          <label class="field"><span>Позывной</span><input id="callsign" maxlength="20" placeholder="Барс"></label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Пароль</span><input id="password" type="password" minlength="6" placeholder="Не менее 6 символов"></label>
+          <label class="field"><span>Повторите пароль</span><input id="password-confirm" type="password" minlength="6" placeholder="Повторите пароль"></label>
+        </div>
+        <p class="form-hint">Пароль хранится на устройстве как защищённый отпечаток. При изменении профиля оставьте поля пустыми, чтобы сохранить текущий пароль.</p>
+        <button class="primary-button" type="submit">Сохранить профиль</button>
+      </form>
+      <button class="logout-button" id="logout-button" type="button" hidden>Выйти из аккаунта</button>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="feedback-modal" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+      <button class="modal-close" id="feedback-close" type="button" aria-label="Закрыть">×</button>
+      <p class="eyebrow">Обратная связь</p>
+      <h2 id="feedback-title">Сообщить о проблеме</h2>
+      <p class="modal-description">Опишите ошибку, недоработку или идею. Сайт подготовит обращение и откроет почтовое приложение.</p>
+      <form id="feedback-form">
+        <label class="field">
+          <span>Тип обращения</span>
+          <select id="feedback-type">
+            <option>Ошибка</option>
+            <option>Недоработка</option>
+            <option>Идея</option>
+            <option>Неверное правило</option>
+          </select>
+        </label>
+        <label class="field"><span>Описание</span><textarea id="feedback-message" required minlength="10" maxlength="1200" placeholder="Что произошло или что предлагаете?"></textarea></label>
+        <label class="field"><span>Контакт для ответа (необязательно)</span><input id="feedback-contact" maxlength="80" placeholder="Discord, Telegram или почта"></label>
+        <button class="primary-button" type="submit">Подготовить обращение</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="guide-modal" aria-hidden="true">
+    <section class="modal guide-modal" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+      <button class="modal-close" id="guide-close" type="button" aria-label="Закрыть">×</button>
+      <div class="guide-image"><img id="guide-image" src="post-passage.png" alt="Военнослужащий на выбранном посту"></div>
+      <div class="guide-content">
+        <p class="eyebrow">Памятка · Арбат</p>
+        <h2 id="guide-title">КПП-1</h2>
+        <p id="guide-description"></p>
+        <div class="guide-facts" id="guide-facts"></div>
+        <h3>Порядок действий</h3>
+        <ol id="guide-steps"></ol>
+        <h3>Порядок пропуска</h3>
+        <ul class="guide-list" id="guide-access"></ul>
+        <details class="guide-details">
+          <summary>Общие запреты на посту</summary>
+          <ul class="guide-list" id="guide-prohibitions"></ul>
+        </details>
+        <div class="warning">Памятка является шаблоном помощника. При расхождении следуйте актуальному уставу и приказам командования сервера.</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span>✓</span><div><strong>Готово</strong><small>Действие выполнено</small></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
