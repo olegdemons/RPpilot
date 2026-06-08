@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "project": "RPpilot",
+  "warning": "Static GitHub Pages database. Browser can read this file, but cannot safely write new registered users back to GitHub.",
+  "roles": {
+    "owner": {
+      "name": "Создатель",
+      "permissions": [
+        "*"
+      ]
+    },
+    "admin": {
+      "name": "Администратор",
+      "permissions": [
+        "users.read",
+        "users.edit",
+        "access.give",
+        "access.revoke",
+        "earnings.read"
+      ]
+    },
+    "moderator": {
+      "name": "Модератор",
+      "permissions": [
+        "users.read",
+        "reports.read"
+      ]
+    },
+    "earnings": {
+      "name": "Доступ к заработку",
+      "permissions": [
+        "earnings.read"
+      ]
+    },
+    "user": {
+      "name": "Пользователь",
+      "permissions": [
+        "profile.read",
+        "profile.edit"
+      ]
+    }
+  },
+  "users": [
+    {
+      "staticId": "946-447",
+      "login": "owner",
+      "password": "change-me",
+      "firstName": "Oleg",
+      "lastName": "Owner",
+      "rank": "Создатель",
+      "callsign": "Owner",
+      "roles": [
+        "owner",
+        "admin",
+        "earnings",
+        "user"
+      ],
+      "isActive": true,
+      "createdAt": "2026-06-09T00:00:00.000Z"
+    }
+  ],
+  "settings": {
+    "registration": {
+      "enabled": true,
+      "defaultRoles": [
+        "user"
+      ],
+      "staticIdFormat": "000-000",
+      "minPasswordLength": 6
+    },
+    "access": {
+      "earningsRole": "earnings",
+      "ownerCanGrantRoles": [
+        "admin",
+        "moderator",
+        "earnings",
+        "user"
+      ]
+    }
+  }
+}
